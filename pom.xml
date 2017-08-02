@@ -7,6 +7,26 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>MAVENWEBPROJECT Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  
+    <scm>
+     <connection>scm:git:https://github.com/DevOps-MST/DevOps-Java-Demo.git</connection>
+     <url>scm:git:https://github.com/DevOps-MST/DevOps-Java-Demo.git</url>
+    <tag>College-0.0.15</tag>
+  </scm>
+  
+   <distributionManagement>
+   <repository>
+      <id>releases</id>
+      <name>Releases</name>
+      <url>http://localhost:8081/nexus/content/repositories/releases/</url>
+   </repository>
+   <snapshotRepository>
+    <id>snapshots</id>
+    <name>Snapshots</name>
+    <url>http://localhost:8081/nexus/content/repositories/snapshots/</url>
+    </snapshotRepository>
+	     </distributionManagement> 
+  
   <properties>
   <hibernate.version>4.0.1.Final</hibernate.version>
   </properties>
@@ -81,7 +101,9 @@
     <scope>provided</scope>
 </dependency>
  </dependencies>
- 
+ <profiles>
+ <profile>
+ <id>release</id>
   <build>
     <finalName>MAVENWEBPROJECT</finalName>
      <plugins>
@@ -90,6 +112,29 @@
         <artifactId>tomcat7-maven-plugin</artifactId>
         <version>2.2</version>
     </plugin>
+    
+    <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-release-plugin</artifactId>
+       <version>2.5.3</version>
+          <configuration>
+             <autoVersionSubmodules>true</autoVersionSubmodules>
+             <releaseProfiles>release</releaseProfiles> 
+          </configuration>
+    </plugin>
+    
+    <plugin>
+      <groupId>org.sonatype.plugins</groupId>
+      <artifactId>nexus-staging-maven-plugin</artifactId>
+      <version>1.6.8</version>
+      <extensions>true</extensions>
+      <configuration>
+        <serverId>nexus</serverId>
+        <nexusUrl>http://localhost:8081/nexus/</nexusUrl>
+        </configuration>
+  </plugin>
   </plugins>
   </build>
+  </profile>
+  </profiles>
 </project>
